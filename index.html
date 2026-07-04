@@ -3,424 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kur'an-ı Kerim Okuma ve Takip Paneli</title>
-    <style>
-        :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #e0e0e0;
-            --primary-color: #1b5e20;
-            --accent-color: #a5d6a7;
-            --sidebar-bg: #262626;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding-bottom: 90px;
-        }
-
-        header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.2rem 5%;
-            background-color: var(--card-bg);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-            border-bottom: 2px solid var(--primary-color);
-        }
-
-        header h1 {
-            font-size: 1.3rem;
-            color: var(--accent-color);
-        }
-
-        .menu-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .menu-btn:hover {
-            background-color: #2e7d32;
-        }
-
-        /* Yan Menü (Sidebar) */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -320px;
-            width: 320px;
-            height: 100%;
-            background-color: var(--sidebar-bg);
-            box-shadow: 5px 0 15px rgba(0,0,0,0.5);
-            transition: left 0.3s ease;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar.open {
-            left: 0;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            background-color: var(--card-bg);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #333;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* Sekme Sistemi */
-        .tabs {
-            display: flex;
-            background-color: #1a1a1a;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: #aaa;
-            font-weight: bold;
-            border-bottom: 2px solid transparent;
-        }
-
-        .tab.active {
-            color: var(--accent-color);
-            border-bottom: 2px solid var(--accent-color);
-            background-color: var(--sidebar-bg);
-        }
-
-        .list-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-        }
-
-        .fihrist-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 15px;
-            margin-bottom: 5px;
-            background-color: rgba(255,255,255,0.05);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .fihrist-item:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .fihrist-item span.page-no {
-            font-size: 0.9rem;
-            color: var(--accent-color);
-            background-color: rgba(0,0,0,0.3);
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-
-        /* Sayfa Gösterim Alanı */
-        .quran-container {
-            margin: 20px auto;
-            max-width: 650px;
-            width: 95%;
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-        }
-
-        .quran-page {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* Sabit Alt Kontrol Paneli */
-        .control-panel {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--card-bg);
-            padding: 18px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
-            z-index: 100;
-        }
-
-        .btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn:hover {
-            background-color: #2e7d32;
-            transform: translateY(-2px);
-        }
-
-        .btn:disabled {
-            background-color: #424242;
-            color: #757575;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .page-info {
-            font-size: 1.1rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .page-input {
-            width: 75px;
-            padding: 6px;
-            text-align: center;
-            font-size: 1.1rem;
-            border: 2px solid var(--primary-color);
-            background-color: var(--bg-color);
-            color: white;
-            border-radius: 6px;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 999;
-            display: none;
-        }
-
-        .overlay.active {
-            display: block;
-        }
-    </style>
+    <title>Kuran-ı Kerim Okuma Ekranı</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800 font-sans">
 
-    <header>
-        <button class="menu-btn" onclick="toggleSidebar()">📖 Fihrist Menü</button>
-        <h1>Kur'an-ı Kerim Paneli</h1>
-        <div style="width: 80px;"></div>
-    </header>
-
-    <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
-    <div id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-            <h3>Hızlı Navigasyon</h3>
-            <button class="close-btn" onclick="toggleSidebar()">&times;</button>
-        </div>
-        <div class="tabs">
-            <button id="sureTab" class="tab active" onclick="switchTab('sure')">Sureler</button>
-            <button id="cuzTab" class="tab" onclick="switchTab('cuz')">Cüzler</button>
-        </div>
-        <div id="fihristList" class="list-container"></div>
-    </div>
-
-    <div class="quran-container">
-        <img id="quranImage" class="quran-page" src="" alt="Sayfa yükleniyor...">
-    </div>
-
-    <div class="control-panel">
-        <button id="nextBtn" class="btn" onclick="changePage(1)">◀ Sonraki S.</button>
+    <div class="max-w-3xl mx-auto bg-white min-h-screen shadow-lg flex flex-col">
         
-        <div class="page-info">
-            S. <input type="number" id="pageNumberInput" class="page-input" min="0" max="608" onchange="goToPage(this.value)"> / 608
+        <!-- Üst Kontrol Paneli -->
+        <div class="p-4 bg-emerald-700 text-white flex flex-col sm:flex-row gap-3 items-center justify-between sticky top-0 z-10 shadow-md">
+            
+            <!-- Kullanıcı Giriş/Çıkış Alanı -->
+            <div id="kullaniciPaneli" class="flex items-center gap-3 w-full sm:w-auto">
+                <button id="btnGiris" class="bg-white text-emerald-700 hover:bg-gray-100 px-4 py-2 rounded font-bold transition w-full sm:w-auto shadow">
+                    Google ile Giriş Yap
+                </button>
+                <div id="kullaniciBilgi" class="hidden flex items-center gap-2">
+                    <img id="profilFoto" src="" alt="Profil" class="w-8 h-8 rounded-full border-2 border-white">
+                    <span id="kullaniciAdi" class="text-sm font-semibold truncate w-24"></span>
+                    <button id="btnCikis" class="bg-red-500 hover:bg-red-400 text-white px-2 py-1 rounded text-xs font-bold transition">Çıkış</button>
+                </div>
+            </div>
+
+            <div class="flex gap-2 w-full sm:w-auto">
+                <select id="sureSecim" class="text-black px-2 py-1 rounded w-full sm:w-32">
+                    <option value="">Sure Seç...</option>
+                </select>
+                <select id="cuzSecim" class="text-black px-2 py-1 rounded w-full sm:w-32">
+                    <option value="">Cüz Seç...</option>
+                </select>
+            </div>
+
+            <div class="flex gap-1 w-full sm:w-auto">
+                <input type="number" id="sayfaInput" min="1" max="609" placeholder="Sayfa (1-609)" class="text-black px-2 py-1 rounded w-full sm:w-24">
+                <button id="btnSayfaGit" class="bg-blue-600 hover:bg-blue-500 px-3 py-1 rounded font-semibold transition">Git</button>
+            </div>
         </div>
 
-        <button id="prevBtn" class="btn" onclick="changePage(-1)">Önceki S. ▶</button>
+        <!-- Resim Görüntüleme Alanı -->
+        <div class="flex-1 flex justify-center items-start p-2 bg-gray-200 overflow-y-auto">
+            <img id="kuranSayfasi" src="pages/0.jpg" alt="Kuran Sayfası" class="max-w-full h-auto shadow-xl border-2 border-gray-300">
+        </div>
+
+        <!-- Alt Navigasyon -->
+        <div class="p-4 bg-emerald-700 text-white flex justify-between items-center sticky bottom-0 z-10 shadow-md">
+            <button id="btnSonraki" class="bg-emerald-600 hover:bg-emerald-500 px-6 py-2 rounded font-bold transition">&larr; Sonraki</button>
+            <span id="sayfaGosterge" class="font-bold text-lg bg-emerald-800 px-4 py-1 rounded">Sayfa: 1</span>
+            <button id="btnOnceki" class="bg-emerald-600 hover:bg-emerald-500 px-6 py-2 rounded font-bold transition">Önceki &rarr;</button>
+        </div>
+
     </div>
 
-    <script>
-        const IMAGE_FOLDER = "page/"; 
-        const TOTAL_PAGES = 608;
-        
-        // İlk sayfa 0.jpg olduğu için varsayılan başlangıç 0 yapıldı
-        let currentPage = parseInt(localStorage.getItem("savedQuranPage")) || 0;
-
-        // 0.jpg başlangıcına göre 1 sayfa geriye kaydırılmış sure listesi
-        const surahs = [
-            { id: 1, name: "1. Fâtiha", page: 0 }, { id: 2, name: "2. Bakara", page: 1 },
-            { id: 3, name: "3. Âl-i İmrân", page: 49 }, { id: 4, name: "4. Nisâ", page: 76 },
-            { id: 5, name: "5. Mâide", page: 105 }, { id: 6, name: "6. En'âm", page: 127 },
-            { id: 7, name: "7. A'râf", page: 150 }, { id: 8, name: "8. Enfâl", page: 176 },
-            { id: 9, name: "9. Tevbe", page: 186 }, { id: 10, name: "10. Yûnus", page: 207 },
-            { id: 11, name: "11. Hûd", page: 220 }, { id: 12, name: "12. Yûsuf", page: 234 },
-            { id: 13, name: "13. Ra'd", page: 248 }, { id: 14, name: "14. İbrâhîm", page: 254 },
-            { id: 15, name: "15. Hicr", page: 261 }, { id: 16, name: "16. Nahl", page: 266 },
-            { id: 17, name: "17. İsrâ", page: 281 }, { id: 18, name: "18. Kehf", page: 292 },
-            { id: 19, name: "19. Meryem", page: 304 }, { id: 20, name: "20. Tâhâ", page: 311 },
-            { id: 21, name: "21. Enbiyâ", page: 321 }, { id: 22, name: "22. Hac", page: 331 },
-            { id: 23, name: "23. Mü'minûn", page: 341 }, { id: 24, name: "24. Nûr", page: 349 },
-            { id: 25, name: "25. Furkân", page: 358 }, { id: 26, name: "26. Şuarâ", page: 366 },
-            { id: 27, name: "27. Neml", page: 376 }, { id: 28, name: "28. Kasas", page: 384 },
-            { id: 29, name: "29. Ankebût", page: 395 }, { id: 30, name: "30. Rûm", page: 403 },
-            { id: 31, name: "31. Lokmân", page: 410 }, { id: 32, name: "32. Secde", page: 414 },
-            { id: 33, name: "33. Ahzâb", page: 417 }, { id: 34, name: "34. Sebe'", page: 427 },
-            { id: 35, name: "35. Fâtır", page: 433 }, { id: 36, name: "36. Yâsîn", page: 439 },
-            { id: 37, name: "37. Sâffât", page: 445 }, { id: 38, name: "38. Sâd", page: 452 },
-            { id: 39, name: "39. Zümer", page: 457 }, { id: 40, name: "40. Mü'min (Gāfir)", page: 466 },
-            { id: 41, name: "41. Fussilet", page: 476 }, { id: 42, name: "42. Şûrâ", page: 482 },
-            { id: 43, name: "43. Zuhruf", page: 488 }, { id: 44, name: "44. Duhân", page: 495 },
-            { id: 45, name: "45. Câsiye", page: 498 }, { id: 46, name: "46. Ahkâf", page: 501 },
-            { id: 47, name: "47. Muhammed", page: 506 }, { id: 48, name: "48. Fetih", page: 510 },
-            { id: 49, name: "49. Hucurât", page: 514 }, { id: 50, name: "50. Kâf", page: 517 },
-            { id: 51, name: "51. Zâriyât", page: 519 }, { id: 52, name: "52. Tûr", page: 522 },
-            { id: 53, name: "53. Necm", page: 525 }, { id: 54, name: "54. Kamer", page: 527 },
-            { id: 55, name: "55. Rahmân", page: 530 }, { id: 56, name: "56. Vâkıa", page: 533 },
-            { id: 57, name: "57. Hadîd", page: 536 }, { id: 58, name: "58. Mücâdele", page: 541 },
-            { id: 59, name: "59. Haşr", page: 544 }, { id: 60, name: "60. Müümtehine", page: 548 },
-            { id: 61, name: "61. Saff", page: 550 }, { id: 62, name: "62. Cuma", page: 552 },
-            { id: 63, name: "63. Münâfikûn", page: 553 }, { id: 64, name: "64. Tegâbun", page: 555 },
-            { id: 65, name: "65. Talâk", page: 557 }, { id: 66, name: "66. Tahrîm", page: 559 },
-            { id: 67, name: "67. Mülk", page: 561 }, { id: 68, name: "68. Kalem", page: 563 },
-            { id: 69, name: "69. Hâkka", page: 565 }, { id: 70, name: "70. Meâric", page: 567 },
-            { id: 71, name: "71. Nûh", page: 569 }, { id: 72, name: "72. Cin", page: 571 },
-            { id: 73, name: "73. Müzzemmil", page: 573 }, { id: 74, name: "74. Müddessir", page: 574 },
-            { id: 75, name: "75. Kıyâme", page: 576 }, { id: 76, name: "76. İnsân", page: 577 },
-            { id: 77, name: "77. Mürselât", page: 579 }, { id: 78, name: "78. Nebe'", page: 581 },
-            { id: 79, name: "79. Nâziât", page: 582 }, { id: 80, name: "80. Abese", page: 584 },
-            { id: 81, name: "81. Tekvîr", page: 585 }, { id: 82, name: "82. İnfitâr", page: 586 },
-            { id: 83, name: "83. Mutaffifîn", page: 587 }, { id: 84, name: "84. İnşikâk", page: 588 },
-            { id: 85, name: "85. Bürûc", page: 589 }, { id: 86, name: "86. Târık", page: 590 },
-            { id: 87, name: "87. A'lâ", page: 591 }, { id: 88, name: "88. Gâşiye", page: 591 },
-            { id: 89, name: "89. Fecr", page: 592 }, { id: 90, name: "90. Beled", page: 593 },
-            { id: 91, name: "91. Şems", page: 594 }, { id: 92, name: "92. Leyl", page: 594 },
-            { id: 93, name: "93. Duhâ", page: 595 }, { id: 94, name: "94. İnşirâh", page: 595 },
-            { id: 95, name: "95. Tîn", page: 596 }, { id: 96, name: "96. Alak", page: 596 },
-            { id: 97, name: "97. Kadr", page: 597 }, { id: 98, name: "98. Beyyine", page: 597 },
-            { id: 99, name: "99. Zilzâl", page: 598 }, { id: 100, name: "100. Âdiyât", page: 598 },
-            { id: 101, name: "101. Kāria", page: 599 }, { id: 102, name: "102. Tekâsür", page: 599 },
-            { id: 103, name: "103. Asr", page: 600 }, { id: 104, name: "104. Hümeze", page: 600 },
-            { id: 105, name: "105. Fîl", page: 600 }, { id: 106, name: "106. Kureyş", page: 601 },
-            { id: 107, name: "107. Mâûn", page: 601 }, { id: 108, name: "108. Kevser", page: 601 },
-            { id: 109, name: "109. Kâfirûn", page: 602 }, { id: 110, name: "110. Nasr", page: 602 },
-            { id: 111, name: "111. Tebbet", page: 602 }, { id: 112, name: "112. İhlâs", page: 603 },
-            { id: 113, name: "113. Felak", page: 603 }, { id: 114, name: "114. Nâs", page: 603 }
-        ];
-        let currentTab = 'sure';
-        const quranImage = document.getElementById("quranImage");
-        const pageInput = document.getElementById("pageNumberInput");
-        const prevBtn = document.getElementById("prevBtn");
-        const nextBtn = document.getElementById("nextBtn");
-        const sidebar = document.getElementById("sidebar");
-        const overlay = document.getElementById("overlay");
-        const fihristList = document.getElementById("fihristList");
-        function toggleSidebar() {
-            sidebar.classList.toggle("open");
-            overlay.classList.toggle("active");
-        }
-        function switchTab(tabName) {
-            currentTab = tabName;
-            document.getElementById("sureTab").classList.toggle("active", tabName === 'sure');
-            document.getElementById("cuzTab").classList.toggle("active", tabName === 'cuz');
-            renderFihrist();
-        }
-        function renderFihrist() {
-            fihristList.innerHTML = "";
-            if (currentTab === 'sure') {
-                surahs.forEach(s => {
-                    const item = document.createElement("div");
-                    item.className = "fihrist-item";
-                    item.onclick = () => { 
-                        goToPage(s.page); 
-                        toggleSidebar(); 
-                    };
-                    item.innerHTML = <span>${s.name}</span><span class="page-no">S. ${s.page}</span>;
-                    fihristList.appendChild(item);
-                }
-                              );
-            } 
-            else {
-                // Her cüz net 20 sayfa (0. sayfa 1. cüz başlangıcı)
-                for (let i = 1; i <= 30; i++) {
-                    const displayPage = (i - 1) * 20;
-                    const item = document.createElement("div");
-                    item.className = "fihrist-item";
-                    item.onclick = () => { 
-                        goToPage(displayPage); 
-                        toggleSidebar(); 
-                    };
-                    item.innerHTML = <span>${i}. Cüz</span><span class="page-no">S. ${displayPage}</span>;
-                    fihristList.appendChild(item);
-                }
-            }
-        }
-        function updatePage() {
-            quranImage.src = ${IMAGE_FOLDER}${currentPage}.jpg;
-            pageInput.value = currentPage;
-            localStorage.setItem("savedQuranPage", currentPage);
-            prevBtn.disabled = currentPage === 0;
-            nextBtn.disabled = currentPage === TOTAL_PAGES;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        function changePage(step) {
-            let targetPage = currentPage + step;
-            if (targetPage >= 0 && targetPage <= TOTAL_PAGES) {
-                currentPage = targetPage;
-                updatePage();
-            }
-        }
-        // Doğrudan arama kutusuna yazıp gitme fonksiyonu
-        function goToPage(value) {
-            let page = parseInt(value);
-            if (!isNaN(page) && page >= 0 && page <= TOTAL_PAGES) {
-                currentPage = page;updatePage();
-            } 
-            else {
-                pageInput.value = currentPage;
-            }
-        }
-        renderFihrist();
-        updatePage();                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+    <!-- Modüler Script Bağlantısı -->
+    <script type="module" src="main.js"></script>
+</body>
+</html>
