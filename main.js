@@ -70,7 +70,7 @@ function sayfayiYukle(index, kaydet = true) {
 
     aktifIndex = index;
     imgKuranSayfasi.src = `page/${aktifIndex}.jpg`;
-    textSayfaGosterge.innerText = `Sayfa: ${aktifIndex + 1}`;
+    textSayfaGosterge.innerText = `Sayfa: ${aktifIndex}`;
     
     if(kaydet) sayfayiKaydet(aktifIndex);
 }
