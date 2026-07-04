@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+//import { getAnalytics } from "firebase/analytics";
 
 // BURAYI KENDİ FIREBASE AYARLARINIZLA DEĞİŞTİRİN
 const firebaseConfig = {
