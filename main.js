@@ -139,14 +139,14 @@ document.getElementById('btnOnceki').addEventListener('click', () => sayfayiYukl
 document.getElementById('btnSayfaGit').addEventListener('click', () => {
     const girilenSayfa = parseInt(document.getElementById('sayfaInput').value);
     if (!isNaN(girilenSayfa) && girilenSayfa >= 0 && girilenSayfa <= (MAKSIMUM_INDEX)) {
-        sayfayiYukle(girilenSayfa - 1);
+        sayfayiYukle(girilenSayfa);
     }
 });
 
 // Sure ve Cüz Verileri
 const sureler = [ { ad: "1. Fatiha", index: 0 }, { ad: "2. Bakara", index: 1 }, { ad: "3. Bakara", index: 1 }, { ad: "4. Bakara", index: 1 }, 
-                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "8. Bakara", index: 1 }, 
-                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "12. Bakara", index: 1 }, 
+                 { ad: "5. Bakara", index: 1 }, { ad: "6. Bakara", index: 1 }, { ad: "7. Bakara", index: 1 }, { ad: "8. Bakara", index: 1 }, 
+                 { ad: "9. Bakara", index: 1 }, { ad: "10. Bakara", index: 1 }, { ad: "11. Bakara", index: 1 }, { ad: "12. Bakara", index: 1 }, 
                  { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "16. Bakara", index: 1 }, 
                  { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "20. Bakara", index: 1 }, 
                  { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "24. Bakara", index: 1 }, 
