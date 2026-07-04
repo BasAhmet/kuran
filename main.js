@@ -5,12 +5,13 @@ import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/fireb
 
 // BURAYI KENDİ FIREBASE AYARLARINIZLA DEĞİŞTİRİN
 const firebaseConfig = {
-    apiKey: "SİZİN_API_KEYİNİZ",
-    authDomain: "proje-id.firebaseapp.com",
-    projectId: "proje-id",
-    storageBucket: "proje-id.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "1:123456789:web:abcdefg"
+    apiKey: "AIzaSyBBIJlA_L4UoNLtKIxv6K-aQpADJ2Kx_hc",
+    authDomain: "kuran-8fba4.firebaseapp.com",
+    projectId: "kuran-8fba4",
+    storageBucket: "kuran-8fba4.firebasestorage.app",
+    messagingSenderId: "761001080952",
+    appId: "1:761001080952:web:04957cfa153445f839d58d",
+    measurementId: "G-Z7N8WRV8CE"
 };
 
 const app = initializeApp(firebaseConfig);
