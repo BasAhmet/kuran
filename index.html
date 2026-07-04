@@ -47,7 +47,6 @@
             color: var(--accent-color);
         }
 
-        /* Menü Butonu */
         .menu-btn {
             background-color: var(--primary-color);
             color: white;
@@ -119,7 +118,7 @@
 
         .tab.active {
             color: var(--accent-color);
-            border-bottom-2px solid var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
             background-color: var(--sidebar-bg);
         }
 
@@ -231,7 +230,6 @@
             border-radius: 6px;
         }
 
-        /* Karartma Katmanı */
         .overlay {
             position: fixed;
             top: 0;
@@ -253,10 +251,9 @@
     <header>
         <button class="menu-btn" onclick="toggleSidebar()">📖 Fihrist Menü</button>
         <h1>Kur'an-ı Kerim Paneli</h1>
-        <div style="width: 80px;"></div> <!-- Dengelemek için boşluk -->
+        <div style="width: 80px;"></div>
     </header>
 
-    <!-- Yan Menü Katmanı -->
     <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
     <div id="sidebar" class="sidebar">
         <div class="sidebar-header">
@@ -267,17 +264,13 @@
             <button id="sureTab" class="tab active" onclick="switchTab('sure')">Sureler</button>
             <button id="cuzTab" class="tab" onclick="switchTab('cuz')">Cüzler</button>
         </div>
-        <div id="fihristList" class="list-container">
-            <!-- Dinamik olarak JavaScript dolduracak -->
-        </div>
+        <div id="fihristList" class="list-container"></div>
     </div>
 
-    <!-- Sayfa Resmi -->
     <div class="quran-container">
         <img id="quranImage" class="quran-page" src="" alt="Sayfa yükleniyor...">
     </div>
 
-    <!-- Geleneksel Sağdan Sola Akış Kontrolleri -->
     <div class="control-panel">
         <button id="nextBtn" class="btn" onclick="changePage(1)">◀ Sonraki S.</button>
         
@@ -292,119 +285,142 @@
         const IMAGE_FOLDER = "page/"; 
         const TOTAL_PAGES = 608;
         
-        let currentPage = parseInt(localStorage.getItem("savedQuranPage")) || 1; // 0 kapak ise 1 yapıldı
+        // İlk sayfa 0.jpg olduğu için varsayılan başlangıç 0 yapıldı
+        let currentPage = parseInt(localStorage.getItem("savedQuranPage")) || 0;
 
-        // Fihrist Veri Seti (Standart Sayfa Başlangıçları)
+        // 0.jpg başlangıcına göre 1 sayfa geriye kaydırılmış sure listesi
         const surahs = [
-            { id: 1, name: "1. Fâtiha", page: 1 }, { id: 2, name: "2. Bakara", page: 2 },
-            { id: 3, name: "3. Âl-i İmrân", page: 50 }, { id: 4, name: "4. Nisâ", page: 77 },
-            { id: 5, name: "5. Mâide", page: 106 }, { id: 6, name: "6. En'âm", page: 128 },
-            { id: 7, name: "7. A'râf", page: 151 }, { id: 8, name: "8. Enfâl", page: 177 },
-            { id: 9, name: "9. Tevbe", page: 187 }, { id: 10, name: "10. Yûnus", page: 208 },
-            { id: 11, name: "11. Hûd", page: 221 }, { id: 12, name: "12. Yûsuf", page: 235 },
-            { id: 13, name: "13. Ra'd", page: 249 }, { id: 14, name: "14. İbrâhîm", page: 255 },
-            { id: 15, name: "15. Hicr", page: 262 }, { id: 16, name: "16. Nahl", page: 267 },
-            { id: 17, name: "17. İsrâ", page: 282 }, { id: 18, name: "18. Kehf", page: 293 },
-            { id: 19, name: "19. Meryem", page: 305 }, { id: 20, name: "20. Tâhâ", page: 312 },
-            { id: 21, name: "21. Enbiyâ", page: 322 }, { id: 22, name: "22. Hac", page: 332 },
-            { id: 23, name: "23. Mü'minûn", page: 342 }, { id: 24, name: "24. Nûr", page: 350 },
-            { id: 25, name: "25. Furkân", page: 359 }, { id: 26, name: "26. Şuarâ", page: 367 },
-            { id: 27, name: "27. Neml", page: 377 }, { id: 28, name: "28. Kasas", page: 385 },
-            { id: 29, name: "29. Ankebût", page: 396 }, { id: 30, name: "30. Rûm", page: 404 },
-            { id: 31, name: "31. Lokmân", page: 411 }, { id: 32, name: "32. Secde", page: 415 },
-            { id: 33, name: "33. Ahzâb", page: 418 }, { id: 34, name: "34. Sebe'", page: 428 },
-            { id: 35, name: "35. Fâtır", page: 434 }, { id: 36, name: "36. Yâsîn", page: 440 },
-            { id: 37, name: "37. Sâffât", page: 446 }, { id: 38, name: "38. Sâd", page: 453 },
-            { id: 39, name: "39. Zümer", page: 458 }, { id: 40, name: "40. Mü'min (Gāfir)", page: 467 },
-          { id: 41, name: "41. Fussilet", page: 477 }, { id: 42, name: "42. Şûrâ", page: 483 },
-          { id: 43, name: "43. Zuhruf", page: 489 }, { id: 44, name: "44. Duhân", page: 496 },
-          { id: 45, name: "45. Câsiye", page: 499 }, { id: 46, name: "46. Ahkâf", page: 502 },
-          { id: 47, name: "47. Muhammed", page: 507 }, { id: 48, name: "48. Fetih", page: 511 },
-          { id: 49, name: "49. Hucurât", page: 515 }, { id: 50, name: "50. Kâf", page: 518 },
-          { id: 51, name: "51. Zâriyât", page: 520 }, { id: 52, name: "52. Tûr", page: 523 },
-          { id: 53, name: "53. Necm", page: 526 }, { id: 54, name: "54. Kamer", page: 528 },
-          { id: 55, name: "55. Rahmân", page: 531 }, { id: 56, name: "56. Vâkıa", page: 534 },
-          { id: 57, name: "57. Hadîd", page: 537 }, { id: 58, name: "58. Mücâdele", page: 542 },
-          { id: 59, name: "59. Haşr", page: 545 }, { id: 60, name: "60. Müümtehine", page: 549 },
-          { id: 61, name: "61. Saff", page: 551 }, { id: 62, name: "62. Cuma", page: 553 },
-          { id: 63, name: "63. Münâfikûn", page: 554 }, { id: 64, name: "64. Tegâbun", page: 556 },
-          { id: 65, name: "65. Talâk", page: 558 }, { id: 66, name: "66. Tahrîm", page: 560 },
-          { id: 67, name: "67. Mülk", page: 562 }, { id: 68, name: "68. Kalem", page: 564 },
-          { id: 69, name: "69. Hâkka", page: 566 }, { id: 70, name: "70. Meâric", page: 568 },
-          { id: 71, name: "71. Nûh", page: 570 }, { id: 72, name: "72. Cin", page: 572 },
-          { id: 73, name: "73. Müzzemmil", page: 574 }, { id: 74, name: "74. Müddessir", page: 575 },
-          { id: 75, name: "75. Kıyâme", page: 577 }, { id: 76, name: "76. İnsân", page: 578 },
-          { id: 77, name: "77. Mürselât", page: 580 }, { id: 78, name: "78. Nebe'", page: 582 },
-          { id: 79, name: "79. Nâziât", page: 583 }, { id: 80, name: "80. Abese", page: 585 },
-          { id: 81, name: "81. Tekvîr", page: 586 }, { id: 82, name: "82. İnfitâr", page: 587 },
-          { id: 83, name: "83. Mutaffifîn", page: 588 }, { id: 84, name: "84. İnşikâk", page: 589 },
-          { id: 85, name: "85. Bürûc", page: 590 }, { id: 86, name: "86. Târık", page: 591 },
-          { id: 87, name: "87. A'lâ", page: 592 }, { id: 88, name: "88. Gâşiye", page: 592 },
-          { id: 89, name: "89. Fecr", page: 593 }, { id: 90, name: "90. Beled", page: 594 },
-          { id: 91, name: "91. Şems", page: 595 }, { id: 92, name: "92. Leyl", page: 595 },
-          { id: 93, name: "93. Duhâ", page: 596 }, { id: 94, name: "94. İnşirâh", page: 596 },
-          { id: 95, name: "95. Tîn", page: 597 }, { id: 96, name: "96. Alak", page: 597 },
-          { id: 97, name: "97. Kadr", page: 598 }, { id: 98, name: "98. Beyyine", page: 598 },
-          { id: 99, name: "99. Zilzâl", page: 599 }, { id: 100, name: "100. Âdiyât", page: 599 },
-          { id: 101, name: "101. Kāria", page: 600 }, { id: 102, name: "102. Tekâsür", page: 600 },
-          { id: 103, name: "103. Asr", page: 601 }, { id: 104, name: "104. Hümeze", page: 601 },
-          { id: 105, name: "105. Fîl", page: 601 }, { id: 106, name: "106. Kureyş", page: 602 },
-          { id: 107, name: "107. Mâûn", page: 602 }, { id: 108, name: "108. Kevser", page: 602 },
-          { id: 109, name: "109. Kâfirûn", page: 603 }, { id: 110, name: "110. Nasr", page: 603 },
-          { id: 111, name: "111. Tebbet", page: 603 }, { id: 112, name: "112. İhlâs", page: 604 },
-          { id: 113, name: "113. Felak", page: 604 }, { id: 114, name: "114. Nâs", page: 604 }];
-      let currentTab = 'sure';
-      const quranImage = document.getElementById("quranImage");
-      const pageInput = document.getElementById("pageNumberInput");
-      const prevBtn = document.getElementById("prevBtn");
-      const nextBtn = document.getElementById("nextBtn");
-      const sidebar = document.getElementById("sidebar");
-      const overlay = document.getElementById("overlay");
-      const fihristList = document.getElementById("fihristList");
-      function toggleSidebar() {sidebar.classList.toggle("open");
-                                overlay.classList.toggle("active");
-                               }
-      function switchTab(tabName) {currentTab = tabName;
-                                   document.getElementById("sureTab").classList.toggle("active", tabName === 'sure');
-                                   document.getElementById("cuzTab").classList.toggle("active", tabName === 'cuz');
-                                   renderFihrist();
-                                  }
-      function renderFihrist() {fihristList.innerHTML = "";
-                                if (currentTab === 'sure') {surahs.forEach(s => {const item = document.createElement("div");
-                                                                                 item.className = "fihrist-item";
-                                                                                 item.onclick = () => { goToPage(s.page); 
-                                                                                                       toggleSidebar(); 
-                                                                                                      };
-                                                                                 item.innerHTML = <span>${s.name}</span><span class="page-no">S. ${s.page}</span>;
-                                                                                 fihristList.appendChild(item);
-                                                                                });
-                                                           } 
-                                else {for (let i = 1; i <= 30; i++) {const targetPage = ((i - 1) * 20) + 2; // Geleneksel düzende cüz başlangıç formülü (Örn: 2. Cüz s. 22)
-                                                                                                  const displayPage = i === 1 ? 1 : targetPage; // 1. Cüz 1. sayfadan başlar
-                                                                                                  const item = document.createElement("div");item.className = "fihrist-item";
-                                                                                                  item.onclick = () => { goToPage(displayPage); toggleSidebar();
-                                                                                                                       };
-                                                                                                  item.innerHTML = <span>${i}. Cüz</span><span class="page-no">S. ${displayPage}</span>;
-                                                                                                  fihristList.appendChild(item);
-                                                                                                 }
-                                                                  }
-                               }
-      function updatePage() {quranImage.src = ${IMAGE_FOLDER}${currentPage}.jpg;
-                             pageInput.value = currentPage;
-                             localStorage.setItem("savedQuranPage", currentPage);
-                             prevBtn.disabled = currentPage === 0;
-                             nextBtn.disabled = currentPage === TOTAL_PAGES;
-                             window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }
-      function changePage(step) {let targetPage = currentPage + step;
-                                 if (targetPage >= 0 && targetPage <= TOTAL_PAGES) {currentPage = targetPage;updatePage();
-                                                                                   }
-                                }
-      function goToPage(value) {let page = parseInt(value);
-                                if (!isNaN(page) && page >= 0 && page <= TOTAL_PAGES) {currentPage = page;updatePage();
-                                                                                      } 
-                                else {pageInput.value = currentPage;
-                                     }
-                               }// Başlangıç Yüklemeleri
-      renderFihrist();
-      updatePage();
+            { id: 1, name: "1. Fâtiha", page: 0 }, { id: 2, name: "2. Bakara", page: 1 },
+            { id: 3, name: "3. Âl-i İmrân", page: 49 }, { id: 4, name: "4. Nisâ", page: 76 },
+            { id: 5, name: "5. Mâide", page: 105 }, { id: 6, name: "6. En'âm", page: 127 },
+            { id: 7, name: "7. A'râf", page: 150 }, { id: 8, name: "8. Enfâl", page: 176 },
+            { id: 9, name: "9. Tevbe", page: 186 }, { id: 10, name: "10. Yûnus", page: 207 },
+            { id: 11, name: "11. Hûd", page: 220 }, { id: 12, name: "12. Yûsuf", page: 234 },
+            { id: 13, name: "13. Ra'd", page: 248 }, { id: 14, name: "14. İbrâhîm", page: 254 },
+            { id: 15, name: "15. Hicr", page: 261 }, { id: 16, name: "16. Nahl", page: 266 },
+            { id: 17, name: "17. İsrâ", page: 281 }, { id: 18, name: "18. Kehf", page: 292 },
+            { id: 19, name: "19. Meryem", page: 304 }, { id: 20, name: "20. Tâhâ", page: 311 },
+            { id: 21, name: "21. Enbiyâ", page: 321 }, { id: 22, name: "22. Hac", page: 331 },
+            { id: 23, name: "23. Mü'minûn", page: 341 }, { id: 24, name: "24. Nûr", page: 349 },
+            { id: 25, name: "25. Furkân", page: 358 }, { id: 26, name: "26. Şuarâ", page: 366 },
+            { id: 27, name: "27. Neml", page: 376 }, { id: 28, name: "28. Kasas", page: 384 },
+            { id: 29, name: "29. Ankebût", page: 395 }, { id: 30, name: "30. Rûm", page: 403 },
+            { id: 31, name: "31. Lokmân", page: 410 }, { id: 32, name: "32. Secde", page: 414 },
+            { id: 33, name: "33. Ahzâb", page: 417 }, { id: 34, name: "34. Sebe'", page: 427 },
+            { id: 35, name: "35. Fâtır", page: 433 }, { id: 36, name: "36. Yâsîn", page: 439 },
+            { id: 37, name: "37. Sâffât", page: 445 }, { id: 38, name: "38. Sâd", page: 452 },
+            { id: 39, name: "39. Zümer", page: 457 }, { id: 40, name: "40. Mü'min (Gāfir)", page: 466 },
+            { id: 41, name: "41. Fussilet", page: 476 }, { id: 42, name: "42. Şûrâ", page: 482 },
+            { id: 43, name: "43. Zuhruf", page: 488 }, { id: 44, name: "44. Duhân", page: 495 },
+            { id: 45, name: "45. Câsiye", page: 498 }, { id: 46, name: "46. Ahkâf", page: 501 },
+            { id: 47, name: "47. Muhammed", page: 506 }, { id: 48, name: "48. Fetih", page: 510 },
+            { id: 49, name: "49. Hucurât", page: 514 }, { id: 50, name: "50. Kâf", page: 517 },
+            { id: 51, name: "51. Zâriyât", page: 519 }, { id: 52, name: "52. Tûr", page: 522 },
+            { id: 53, name: "53. Necm", page: 525 }, { id: 54, name: "54. Kamer", page: 527 },
+            { id: 55, name: "55. Rahmân", page: 530 }, { id: 56, name: "56. Vâkıa", page: 533 },
+            { id: 57, name: "57. Hadîd", page: 536 }, { id: 58, name: "58. Mücâdele", page: 541 },
+            { id: 59, name: "59. Haşr", page: 544 }, { id: 60, name: "60. Müümtehine", page: 548 },
+            { id: 61, name: "61. Saff", page: 550 }, { id: 62, name: "62. Cuma", page: 552 },
+            { id: 63, name: "63. Münâfikûn", page: 553 }, { id: 64, name: "64. Tegâbun", page: 555 },
+            { id: 65, name: "65. Talâk", page: 557 }, { id: 66, name: "66. Tahrîm", page: 559 },
+            { id: 67, name: "67. Mülk", page: 561 }, { id: 68, name: "68. Kalem", page: 563 },
+            { id: 69, name: "69. Hâkka", page: 565 }, { id: 70, name: "70. Meâric", page: 567 },
+            { id: 71, name: "71. Nûh", page: 569 }, { id: 72, name: "72. Cin", page: 571 },
+            { id: 73, name: "73. Müzzemmil", page: 573 }, { id: 74, name: "74. Müddessir", page: 574 },
+            { id: 75, name: "75. Kıyâme", page: 576 }, { id: 76, name: "76. İnsân", page: 577 },
+            { id: 77, name: "77. Mürselât", page: 579 }, { id: 78, name: "78. Nebe'", page: 581 },
+            { id: 79, name: "79. Nâziât", page: 582 }, { id: 80, name: "80. Abese", page: 584 },
+            { id: 81, name: "81. Tekvîr", page: 585 }, { id: 82, name: "82. İnfitâr", page: 586 },
+            { id: 83, name: "83. Mutaffifîn", page: 587 }, { id: 84, name: "84. İnşikâk", page: 588 },
+            { id: 85, name: "85. Bürûc", page: 589 }, { id: 86, name: "86. Târık", page: 590 },
+            { id: 87, name: "87. A'lâ", page: 591 }, { id: 88, name: "88. Gâşiye", page: 591 },
+            { id: 89, name: "89. Fecr", page: 592 }, { id: 90, name: "90. Beled", page: 593 },
+            { id: 91, name: "91. Şems", page: 594 }, { id: 92, name: "92. Leyl", page: 594 },
+            { id: 93, name: "93. Duhâ", page: 595 }, { id: 94, name: "94. İnşirâh", page: 595 },
+            { id: 95, name: "95. Tîn", page: 596 }, { id: 96, name: "96. Alak", page: 596 },
+            { id: 97, name: "97. Kadr", page: 597 }, { id: 98, name: "98. Beyyine", page: 597 },
+            { id: 99, name: "99. Zilzâl", page: 598 }, { id: 100, name: "100. Âdiyât", page: 598 },
+            { id: 101, name: "101. Kāria", page: 599 }, { id: 102, name: "102. Tekâsür", page: 599 },
+            { id: 103, name: "103. Asr", page: 600 }, { id: 104, name: "104. Hümeze", page: 600 },
+            { id: 105, name: "105. Fîl", page: 600 }, { id: 106, name: "106. Kureyş", page: 601 },
+            { id: 107, name: "107. Mâûn", page: 601 }, { id: 108, name: "108. Kevser", page: 601 },
+            { id: 109, name: "109. Kâfirûn", page: 602 }, { id: 110, name: "110. Nasr", page: 602 },
+            { id: 111, name: "111. Tebbet", page: 602 }, { id: 112, name: "112. İhlâs", page: 603 },
+            { id: 113, name: "113. Felak", page: 603 }, { id: 114, name: "114. Nâs", page: 603 }
+        ];
+        let currentTab = 'sure';
+        const quranImage = document.getElementById("quranImage");
+        const pageInput = document.getElementById("pageNumberInput");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("overlay");
+        const fihristList = document.getElementById("fihristList");
+        function toggleSidebar() {
+            sidebar.classList.toggle("open");
+            overlay.classList.toggle("active");
+        }
+        function switchTab(tabName) {
+            currentTab = tabName;
+            document.getElementById("sureTab").classList.toggle("active", tabName === 'sure');
+            document.getElementById("cuzTab").classList.toggle("active", tabName === 'cuz');
+            renderFihrist();
+        }
+        function renderFihrist() {
+            fihristList.innerHTML = "";
+            if (currentTab === 'sure') {
+                surahs.forEach(s => {
+                    const item = document.createElement("div");
+                    item.className = "fihrist-item";
+                    item.onclick = () => { 
+                        goToPage(s.page); 
+                        toggleSidebar(); 
+                    };
+                    item.innerHTML = <span>${s.name}</span><span class="page-no">S. ${s.page}</span>;
+                    fihristList.appendChild(item);
+                }
+                              );
+            } 
+            else {
+                // Her cüz net 20 sayfa (0. sayfa 1. cüz başlangıcı)
+                for (let i = 1; i <= 30; i++) {
+                    const displayPage = (i - 1) * 20;
+                    const item = document.createElement("div");
+                    item.className = "fihrist-item";
+                    item.onclick = () => { 
+                        goToPage(displayPage); 
+                        toggleSidebar(); 
+                    };
+                    item.innerHTML = <span>${i}. Cüz</span><span class="page-no">S. ${displayPage}</span>;
+                    fihristList.appendChild(item);
+                }
+            }
+        }
+        function updatePage() {
+            quranImage.src = ${IMAGE_FOLDER}${currentPage}.jpg;
+            pageInput.value = currentPage;
+            localStorage.setItem("savedQuranPage", currentPage);
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage === TOTAL_PAGES;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function changePage(step) {
+            let targetPage = currentPage + step;
+            if (targetPage >= 0 && targetPage <= TOTAL_PAGES) {
+                currentPage = targetPage;
+                updatePage();
+            }
+        }
+        // Doğrudan arama kutusuna yazıp gitme fonksiyonu
+        function goToPage(value) {
+            let page = parseInt(value);
+            if (!isNaN(page) && page >= 0 && page <= TOTAL_PAGES) {
+                currentPage = page;updatePage();
+            } 
+            else {
+                pageInput.value = currentPage;
+            }
+        }
+        renderFihrist();
+        updatePage();                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
