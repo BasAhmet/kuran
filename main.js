@@ -108,8 +108,8 @@ document.getElementById('btnOnceki').addEventListener('click', () => sayfayiYukl
 
 document.getElementById('btnSayfaGit').addEventListener('click', () => {
     const girilenSayfa = parseInt(document.getElementById('sayfaInput').value);
-    if (!isNaN(girilenSayfa) && girilenSayfa >= 1 && girilenSayfa <= (MAKSIMUM_INDEX + 1)) {
-        sayfayiYukle(girilenSayfa - 1);
+    if (!isNaN(girilenSayfa) && girilenSayfa >= 0 && girilenSayfa <= (MAKSIMUM_INDEX)) {
+        sayfayiYukle(girilenSayfa);
     }
 });
 
