@@ -143,12 +143,12 @@ const sureler = [ { ad: "1. Fatiha", index: 0 }, { ad: "2. Bakara", index: 1 }, 
                  { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "108. Bakara", index: 1 }, 
                  { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "112. Bakara", index: 1 }, 
                  { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 } ]; // Kendi verilerinizi ekleyin
-const cuzler = [ { ad: "01. Cüz", index: 0 }, { ad: "02. Cüz", index: 21 }, { ad: "03. Cüz", index: 21 }, { ad: "04. Cüz", index: 21 }, { ad: "05. Cüz", index: 21 }, 
-                { ad: "06. Cüz", index: 21 }, { ad: "07. Cüz", index: 21 }, { ad: "08. Cüz", index: 21 }, { ad: "09. Cüz", index: 21 }, { ad: "10. Cüz", index: 21 }, 
-                { ad: "11. Cüz", index: 21 }, { ad: "12. Cüz", index: 21 }, { ad: "13. Cüz", index: 21 }, { ad: "14. Cüz", index: 21 }, { ad: "15. Cüz", index: 21 }, 
-                { ad: "16. Cüz", index: 21 }, { ad: "17. Cüz", index: 21 }, { ad: "18. Cüz", index: 21 }, { ad: "19. Cüz", index: 21 }, { ad: "20. Cüz", index: 21 }, 
-                { ad: "21. Cüz", index: 21 }, { ad: "22. Cüz", index: 21 }, { ad: "23. Cüz", index: 21 }, { ad: "24. Cüz", index: 21 }, { ad: "25. Cüz", index: 21 }, 
-                { ad: "26. Cüz", index: 21 }, { ad: "27. Cüz", index: 21 }, { ad: "28. Cüz", index: 21 }, { ad: "29. Cüz", index: 21 }, { ad: "30. Cüz", index: 21 } ]; // Kendi verilerinizi ekleyin
+const cuzler = [ { ad: "01. Cüz", index: 0 }, { ad: "02. Cüz", index: 21 }, { ad: "03. Cüz", index: 41 }, { ad: "04. Cüz", index: 61 }, { ad: "05. Cüz", index: 81 }, 
+                { ad: "06. Cüz", index: 101 }, { ad: "07. Cüz", index: 121 }, { ad: "08. Cüz", index: 141 }, { ad: "09. Cüz", index: 161 }, { ad: "10. Cüz", index: 181 }, 
+                { ad: "11. Cüz", index: 201 }, { ad: "12. Cüz", index: 221 }, { ad: "13. Cüz", index: 241 }, { ad: "14. Cüz", index: 261 }, { ad: "15. Cüz", index: 281 }, 
+                { ad: "16. Cüz", index: 301 }, { ad: "17. Cüz", index: 321 }, { ad: "18. Cüz", index: 341 }, { ad: "19. Cüz", index: 361 }, { ad: "20. Cüz", index: 381 }, 
+                { ad: "21. Cüz", index: 401 }, { ad: "22. Cüz", index: 421 }, { ad: "23. Cüz", index: 441 }, { ad: "24. Cüz", index: 461 }, { ad: "25. Cüz", index: 481 }, 
+                { ad: "26. Cüz", index: 501 }, { ad: "27. Cüz", index: 521 }, { ad: "28. Cüz", index: 541 }, { ad: "29. Cüz", index: 561 }, { ad: "30. Cüz", index: 581 } ]; // Kendi verilerinizi ekleyin
 
 const sureSelect = document.getElementById('sureSecim');
 sureler.forEach(sure => { sureSelect.innerHTML += `<option value="${sure.index}">${sure.ad}</option>`; });
