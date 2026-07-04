@@ -10,10 +10,8 @@
 
     <div class="max-w-3xl mx-auto bg-white min-h-screen shadow-lg flex flex-col">
         
-        <!-- Üst Kontrol Paneli -->
         <div class="p-4 bg-emerald-700 text-white flex flex-col sm:flex-row gap-3 items-center justify-between sticky top-0 z-10 shadow-md">
             
-            <!-- Kullanıcı Giriş/Çıkış Alanı -->
             <div id="kullaniciPaneli" class="flex items-center gap-3 w-full sm:w-auto">
                 <button id="btnGiris" class="bg-white text-emerald-700 hover:bg-gray-100 px-4 py-2 rounded font-bold transition w-full sm:w-auto shadow">
                     Google ile Giriş Yap
@@ -25,27 +23,33 @@
                 </div>
             </div>
 
-            <div class="flex gap-2 w-full sm:w-auto">
-                <select id="sureSecim" class="text-black px-2 py-1 rounded w-full sm:w-32">
+            <div class="flex gap-2 w-full sm:w-auto items-center">
+                <select id="hatimSecim" class="text-black bg-yellow-100 px-2 py-1 rounded w-full sm:w-28 font-bold border border-yellow-400">
+                    <option value="hatim1">📗 Hatim 1</option>
+                    <option value="hatim2">📘 Hatim 2</option>
+                    <option value="hatim3">📙 Hatim 3</option>
+                    <option value="hatim4">📕 Hatim 4</option>
+                    <option value="hatim5">📓 Hatim 5</option>
+                </select>
+
+                <select id="sureSecim" class="text-black px-2 py-1 rounded w-full sm:w-28">
                     <option value="">Sure Seç...</option>
                 </select>
-                <select id="cuzSecim" class="text-black px-2 py-1 rounded w-full sm:w-32">
+                <select id="cuzSecim" class="text-black px-2 py-1 rounded w-full sm:w-28">
                     <option value="">Cüz Seç...</option>
                 </select>
             </div>
 
             <div class="flex gap-1 w-full sm:w-auto">
-                <input type="number" id="sayfaInput" min="0" max="608" placeholder="Sayfa (0-608)" class="text-black px-2 py-1 rounded w-full sm:w-24">
+                <input type="number" id="sayfaInput" min="1" max="609" placeholder="Sayfa" class="text-black px-2 py-1 rounded w-full sm:w-20">
                 <button id="btnSayfaGit" class="bg-blue-600 hover:bg-blue-500 px-3 py-1 rounded font-semibold transition">Git</button>
             </div>
         </div>
 
-        <!-- Resim Görüntüleme Alanı -->
         <div class="flex-1 flex justify-center items-start p-2 bg-gray-200 overflow-y-auto">
-            <img id="kuranSayfasi" src="pages/0.jpg" alt="Kuran Sayfası" class="max-w-full h-auto shadow-xl border-2 border-gray-300">
+            <img id="kuranSayfasi" src="page/0.jpg" alt="Kuran Sayfası" class="max-w-full h-auto shadow-xl border-2 border-gray-300">
         </div>
 
-        <!-- Alt Navigasyon -->
         <div class="p-4 bg-emerald-700 text-white flex justify-between items-center sticky bottom-0 z-10 shadow-md">
             <button id="btnSonraki" class="bg-emerald-600 hover:bg-emerald-500 px-6 py-2 rounded font-bold transition">&larr; Sonraki</button>
             <span id="sayfaGosterge" class="font-bold text-lg bg-emerald-800 px-4 py-1 rounded">Sayfa: 1</span>
@@ -54,7 +58,6 @@
 
     </div>
 
-    <!-- Modüler Script Bağlantısı -->
     <script type="module" src="main.js"></script>
 </body>
 </html>
