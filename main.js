@@ -69,7 +69,7 @@ function sayfayiYukle(index, kaydet = true) {
     if (index > MAKSIMUM_INDEX) index = MAKSIMUM_INDEX;
 
     aktifIndex = index;
-    imgKuranSayfasi.src = `pages/${aktifIndex}.jpg`;
+    imgKuranSayfasi.src = `page/${aktifIndex}.jpg`;
     textSayfaGosterge.innerText = `Sayfa: ${aktifIndex + 1}`;
     
     if(kaydet) sayfayiKaydet(aktifIndex);
