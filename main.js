@@ -114,8 +114,41 @@ document.getElementById('btnSayfaGit').addEventListener('click', () => {
 });
 
 // Sure ve Cüz Verileri
-const sureler = [ { ad: "1. Fatiha", index: 0 }, { ad: "2. Bakara", index: 1 } ]; // Kendi verilerinizi ekleyin
-const cuzler = [ { ad: "1. Cüz", index: 0 }, { ad: "2. Cüz", index: 21 } ]; // Kendi verilerinizi ekleyin
+const sureler = [ { ad: "1. Fatiha", index: 0 }, { ad: "2. Bakara", index: 1 }, { ad: "3. Bakara", index: 1 }, { ad: "4. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "8. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "12. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "16. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "20. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "24. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "28. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "32. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "36. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "40. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "44. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "48. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "52. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "56. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "60. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "64. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "68. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "72. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "76. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "80. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "84. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "88. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "92. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "96. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "100. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "104. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "108. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 }, { ad: "112. Bakara", index: 1 }, 
+                 { ad: "2. Bakara", index: 1 }, { ad: "2. Bakara", index: 1 } ]; // Kendi verilerinizi ekleyin
+const cuzler = [ { ad: "01. Cüz", index: 0 }, { ad: "02. Cüz", index: 21 }, { ad: "03. Cüz", index: 21 }, { ad: "04. Cüz", index: 21 }, { ad: "05. Cüz", index: 21 }, 
+                { ad: "06. Cüz", index: 21 }, { ad: "07. Cüz", index: 21 }, { ad: "08. Cüz", index: 21 }, { ad: "09. Cüz", index: 21 }, { ad: "10. Cüz", index: 21 }, 
+                { ad: "11. Cüz", index: 21 }, { ad: "12. Cüz", index: 21 }, { ad: "13. Cüz", index: 21 }, { ad: "14. Cüz", index: 21 }, { ad: "15. Cüz", index: 21 }, 
+                { ad: "16. Cüz", index: 21 }, { ad: "17. Cüz", index: 21 }, { ad: "18. Cüz", index: 21 }, { ad: "19. Cüz", index: 21 }, { ad: "20. Cüz", index: 21 }, 
+                { ad: "21. Cüz", index: 21 }, { ad: "22. Cüz", index: 21 }, { ad: "23. Cüz", index: 21 }, { ad: "24. Cüz", index: 21 }, { ad: "25. Cüz", index: 21 }, 
+                { ad: "26. Cüz", index: 21 }, { ad: "27. Cüz", index: 21 }, { ad: "28. Cüz", index: 21 }, { ad: "29. Cüz", index: 21 }, { ad: "30. Cüz", index: 21 } ]; // Kendi verilerinizi ekleyin
 
 const sureSelect = document.getElementById('sureSecim');
 sureler.forEach(sure => { sureSelect.innerHTML += `<option value="${sure.index}">${sure.ad}</option>`; });
