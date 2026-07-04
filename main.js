@@ -2,8 +2,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-//import { initializeApp } from "firebase/app";
-//import { getAnalytics } from "firebase/analytics";
 
 // BURAYI KENDİ FIREBASE AYARLARINIZLA DEĞİŞTİRİN
 const firebaseConfig = {
@@ -16,16 +14,25 @@ const firebaseConfig = {
     measurementId: "G-Z7N8WRV8CE"
 };
 
-//const analytics = getAnalytics(app);
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-// Sayfa Değişkenleri
+// Sayfa ve Hatim Değişkenleri
 const MAKSIMUM_INDEX = 608; 
 let aktifIndex = 0;
 let mevcutKullanici = null;
+
+// YENİ: Hatim Verileri
+let aktifHatim = "hatim1";
+let hatimKayitlari = {
+    hatim1: 0,
+    hatim2: 0,
+    hatim3: 0,
+    hatim4: 0,
+    hatim5: 0
+};
 
 // DOM Elementleri
 const imgKuranSayfasi = document.getElementById('kuranSayfasi');
@@ -33,37 +40,44 @@ const textSayfaGosterge = document.getElementById('sayfaGosterge');
 const btnGiris = document.getElementById('btnGiris');
 const kullaniciBilgi = document.getElementById('kullaniciBilgi');
 const btnCikis = document.getElementById('btnCikis');
+const hatimSelect = document.getElementById('hatimSecim');
 
 // --- VERİTABANI İŞLEMLERİ ---
 
-// Sayfa değiştiğinde veritabanına kaydet
 async function sayfayiKaydet(index) {
+    // Önce lokal değişkenimizi güncelliyoruz
+    hatimKayitlari[aktifHatim] = index;
+
     if (mevcutKullanici) {
         try {
             await setDoc(doc(db, "kullanicilar", mevcutKullanici.uid), {
-                sonSayfaIndex: index
+                hatimKayitlari: hatimKayitlari,
+                aktifHatim: aktifHatim
             }, { merge: true });
         } catch (e) {
             console.error("Kaydedilemedi: ", e);
         }
     } else {
-        // Kullanıcı giriş yapmamışsa sadece o cihaza kaydet
-        localStorage.setItem('kuran_son_index', index);
+        // Kullanıcı giriş yapmamışsa cihazın hafızasına kaydet
+        localStorage.setItem('kuran_hatim_kayitlari', JSON.stringify(hatimKayitlari));
+        localStorage.setItem('kuran_aktif_hatim', aktifHatim);
     }
 }
 
-// Giriş yapıldığında veritabanından son sayfayı çek
 async function sonSayfayiGetir() {
     if (mevcutKullanici) {
         const docRef = doc(db, "kullanicilar", mevcutKullanici.uid);
         const docSnap = await getDoc(docRef);
         
-        if (docSnap.exists() && docSnap.data().sonSayfaIndex !== undefined) {
-            sayfayiYukle(docSnap.data().sonSayfaIndex, false);
-        } else {
-            sayfayiYukle(0, false);
+        if (docSnap.exists() && docSnap.data().hatimKayitlari) {
+            hatimKayitlari = docSnap.data().hatimKayitlari;
+            aktifHatim = docSnap.data().aktifHatim || "hatim1";
         }
     }
+    
+    // Arayüzü ve sayfayı güncelle
+    hatimSelect.value = aktifHatim;
+    sayfayiYukle(hatimKayitlari[aktifHatim], false);
 }
 
 // --- SAYFA YÖNETİMİ ---
@@ -74,14 +88,20 @@ function sayfayiYukle(index, kaydet = true) {
 
     aktifIndex = index;
     imgKuranSayfasi.src = `page/${aktifIndex}.jpg`;
-    textSayfaGosterge.innerText = `Sayfa: ${aktifIndex}`;
+    textSayfaGosterge.innerText = `Sayfa: ${aktifIndex + 1}`;
     
     if(kaydet) sayfayiKaydet(aktifIndex);
 }
 
+// YENİ: Hatim Değiştirme Olayı
+hatimSelect.addEventListener('change', (e) => {
+    aktifHatim = e.target.value;
+    // Seçilen hatimin kaldığı sayfayı yükle ve durumu veritabanına kaydet
+    sayfayiYukle(hatimKayitlari[aktifHatim], true);
+});
+
 // --- KİMLİK DOĞRULAMA (AUTH) ---
 
-// Kullanıcı durumunu dinle (Giriş yaptı mı, çıktı mı?)
 onAuthStateChanged(auth, (user) => {
     if (user) {
         mevcutKullanici = user;
@@ -89,7 +109,7 @@ onAuthStateChanged(auth, (user) => {
         kullaniciBilgi.classList.remove('hidden');
         
         document.getElementById('profilFoto').src = user.photoURL;
-        document.getElementById('kullaniciAdi').innerText = user.displayName.split(' ')[0]; // Sadece ilk ismi yaz
+        document.getElementById('kullaniciAdi').innerText = user.displayName.split(' ')[0];
         
         sonSayfayiGetir();
     } else {
@@ -97,9 +117,15 @@ onAuthStateChanged(auth, (user) => {
         btnGiris.classList.remove('hidden');
         kullaniciBilgi.classList.add('hidden');
         
-        // Çıkış yapıldıysa localstorage'dan devam et
-        const localSon = localStorage.getItem('kuran_son_index');
-        sayfayiYukle(localSon !== null ? parseInt(localSon) : 0, false);
+        // Çıkış yapıldıysa veya misafirse localstorage'dan devam et
+        const localKayitlar = localStorage.getItem('kuran_hatim_kayitlari');
+        const localAktif = localStorage.getItem('kuran_aktif_hatim');
+        
+        if(localKayitlar) hatimKayitlari = JSON.parse(localKayitlar);
+        if(localAktif) aktifHatim = localAktif;
+
+        hatimSelect.value = aktifHatim;
+        sayfayiYukle(hatimKayitlari[aktifHatim], false);
     }
 });
 
@@ -112,8 +138,8 @@ document.getElementById('btnOnceki').addEventListener('click', () => sayfayiYukl
 
 document.getElementById('btnSayfaGit').addEventListener('click', () => {
     const girilenSayfa = parseInt(document.getElementById('sayfaInput').value);
-    if (!isNaN(girilenSayfa) && girilenSayfa >= 0 && girilenSayfa <= (MAKSIMUM_INDEX)) {
-        sayfayiYukle(girilenSayfa);
+    if (!isNaN(girilenSayfa) && girilenSayfa >= 1 && girilenSayfa <= (MAKSIMUM_INDEX + 1)) {
+        sayfayiYukle(girilenSayfa - 1);
     }
 });
 
@@ -161,3 +187,4 @@ sureSelect.addEventListener('change', (e) => { if(e.target.value !== "") sayfayi
 const cuzSelect = document.getElementById('cuzSecim');
 cuzler.forEach(cuz => { cuzSelect.innerHTML += `<option value="${cuz.index}">${cuz.ad}</option>`; });
 cuzSelect.addEventListener('change', (e) => { if(e.target.value !== "") sayfayiYukle(parseInt(e.target.value)); });
+
