@@ -88,7 +88,7 @@ function sayfayiYukle(index, kaydet = true) {
 
     aktifIndex = index;
     imgKuranSayfasi.src = `page/${aktifIndex}.jpg`;
-    textSayfaGosterge.innerText = `Sayfa: ${aktifIndex + 1}`;
+    textSayfaGosterge.innerText = `Sayfa: ${aktifIndex}`;
     
     if(kaydet) sayfayiKaydet(aktifIndex);
 }
@@ -138,7 +138,7 @@ document.getElementById('btnOnceki').addEventListener('click', () => sayfayiYukl
 
 document.getElementById('btnSayfaGit').addEventListener('click', () => {
     const girilenSayfa = parseInt(document.getElementById('sayfaInput').value);
-    if (!isNaN(girilenSayfa) && girilenSayfa >= 1 && girilenSayfa <= (MAKSIMUM_INDEX + 1)) {
+    if (!isNaN(girilenSayfa) && girilenSayfa >= 0 && girilenSayfa <= (MAKSIMUM_INDEX)) {
         sayfayiYukle(girilenSayfa - 1);
     }
 });
