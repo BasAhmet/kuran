@@ -199,3 +199,42 @@ const cuzSelect = document.getElementById('cuzSecim');
 cuzler.forEach(cuz => { cuzSelect.innerHTML += `<option value="${cuz.index}">${cuz.ad}</option>`; });
 cuzSelect.addEventListener('change', (e) => { if(e.target.value !== "") sayfayiYukle(parseInt(e.target.value)); });
 
+// --- ENTER TUŞU İLE SAYFAYA GİTME ---
+const sayfaInput = document.getElementById('sayfaInput');
+sayfaInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        // Enter'a basılırsa Git butonunu tetikle
+        document.getElementById('btnSayfaGit').click(); 
+    }
+});
+
+// --- MOBİL İÇİN KAYDIRMA (SWIPE) ÖZELLİĞİ ---
+let dokunmaBaslangicX = 0;
+let dokunmaBitisX = 0;
+const resimAlani = document.getElementById('kuranSayfasi');
+
+function kaydirmaIslemi() {
+    // Parmağın başlangıç ve bitiş noktası arasındaki farkı hesapla
+    const kaydirmaMesafesi = dokunmaBitisX - dokunmaBaslangicX;
+    
+    // Sola kaydırma (Parmak sağdan sola hareket ederse)
+    if (kaydirmaMesafesi < -50) {
+        sayfayiYukle(aktifIndex + 1); // Sonraki sayfa
+    }
+    // Sağa kaydırma (Parmak soldan sağa hareket ederse)
+    else if (kaydirmaMesafesi > 50) {
+        sayfayiYukle(aktifIndex - 1); // Önceki sayfa
+    }
+}
+
+// Parmak ekrana dokunduğunda konumu al
+resimAlani.addEventListener('touchstart', e => {
+    dokunmaBaslangicX = e.changedTouches[0].screenX;
+});
+
+// Parmak ekrandan kalktığında konumu al ve yönü hesapla
+resimAlani.addEventListener('touchend', e => {
+    dokunmaBitisX = e.changedTouches[0].screenX;
+    kaydirmaIslemi();
+});
+
