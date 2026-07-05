@@ -219,11 +219,11 @@ function kaydirmaIslemi() {
     
     // Sola kaydırma (Parmak sağdan sola hareket ederse)
     if (kaydirmaMesafesi < -50) {
-        sayfayiYukle(aktifIndex + 1); // Sonraki sayfa
+        sayfayiYukle(aktifIndex - 1); // Sonraki sayfa
     }
     // Sağa kaydırma (Parmak soldan sağa hareket ederse)
     else if (kaydirmaMesafesi > 50) {
-        sayfayiYukle(aktifIndex - 1); // Önceki sayfa
+        sayfayiYukle(aktifIndex + 1); // Önceki sayfa
     }
 }
 
